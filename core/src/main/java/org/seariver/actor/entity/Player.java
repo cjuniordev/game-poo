@@ -54,14 +54,16 @@ public class Player extends BaseActor {
     }
 
     protected void setAnimations() {
-        this.stand = loadTexture("koala/stand.png");
+        String[] idleFileNames = { "player/idle/player-idle-1.png", "player/idle/player-idle-2.png", "player/idle/player-idle-3.png", "player/idle/player-idle-4.png" };
+        this.stand = loadAnimationFromFiles(idleFileNames, 0.2f, true);
 
-        String[] walkFileNames = {"koala/walk-1.png", "koala/walk-2.png", "koala/walk-3.png", "koala/walk-2.png"};
+        String[] walkFileNames = {"player/run/player-run-1.png", "player/run/player-run-2.png", "player/run/player-run-3.png", "player/run/player-run-4.png", "player/run/player-run-6.png", "player/run/player-run-6.png"};
         this.walk = loadAnimationFromFiles(walkFileNames, 0.2f, true);
     }
 
     protected void setJump() {
-        this.jump = loadTexture("koala/jump.png");
+        String[] jumpFileNames = { "player/jump/player-jump-1.png", "player/jump/player-jump-2.png" };
+        this.jump = loadAnimationFromFiles(jumpFileNames, 0.2f, true);
         this.jumpSpeed = 450;
     }
 
@@ -165,7 +167,7 @@ public class Player extends BaseActor {
 
         this.move(deltaTime);
 
-        // move the below sensor below the koala
+        // move the below sensor below the
         belowSensor.setPosition(getX() + 4, getY() - 8);
 
         // manage animations

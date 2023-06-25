@@ -13,6 +13,7 @@ public class Enemy extends BaseActor {
 
     protected BaseActor belowSensor;
     public Directions direction;
+    private Animation stand;
     public int lifes;
     public int delayHit = 0;
     protected float walkAcceleration;
@@ -21,6 +22,16 @@ public class Enemy extends BaseActor {
 
     public Enemy(float x, float y, Stage stage) {
         super(x, y, stage);
+
+        String[] animationFileNames = {
+                "opossum/opossum-1.png",
+                "opossum/opossum-2.png",
+                "opossum/opossum-3.png",
+                "opossum/opossum-4.png",
+                "opossum/opossum-5.png",
+                "opossum/opossum-6.png"
+        };
+        this.stand = loadAnimationFromFiles(animationFileNames, 0.2f, true);
 
         loadAnimationFromSheet("enemy/demosTeste.png", 1, 4, 0.2f, true);
 
@@ -46,11 +57,11 @@ public class Enemy extends BaseActor {
 
     protected void setFace() {
         if (this.velocityVec.x > 0){
-            setScaleX(Directions.RIGHT.getDirection());
+            setScaleX(Directions.LEFT.getDirection());
         }
 
         if (this.velocityVec.x < 0) {
-            setScaleX(Directions.LEFT.getDirection());
+            setScaleX(Directions.RIGHT.getDirection());
         }
     }
 
