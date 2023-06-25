@@ -54,14 +54,15 @@ public class Player extends BaseActor {
     }
 
     protected void setAnimations() {
-        this.stand = loadTexture("koala/stand.png");
+        this.stand = loadTexture("koala/pelado1.png");
 
-        String[] walkFileNames = {"koala/walk-1.png", "koala/walk-2.png", "koala/walk-3.png", "koala/walk-2.png"};
+        String[] walkFileNames = {"koala/pelado1.png", "koala/pelado2.png", "koala/pelado3.png", "koala/pelado2.png"};
         this.walk = loadAnimationFromFiles(walkFileNames, 0.2f, true);
+        setSize(30, 67);
     }
 
     protected void setJump() {
-        this.jump = loadTexture("koala/jump.png");
+        this.jump = loadTexture("koala/pelado1.png");
         this.jumpSpeed = 450;
     }
 
