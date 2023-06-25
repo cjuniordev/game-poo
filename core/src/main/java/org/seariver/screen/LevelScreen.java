@@ -18,7 +18,9 @@ import org.seariver.actor.entity.Enemy;
 import org.seariver.actor.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys;
 
 public class LevelScreen extends BaseScreen {
@@ -36,7 +38,6 @@ public class LevelScreen extends BaseScreen {
     Label messageLabel;
     Table keyTable;
     Label lifeLabel;
-
     TilemapActor tma;
 
     protected void loadSolids() {
@@ -120,6 +121,7 @@ public class LevelScreen extends BaseScreen {
         this.messageLabel.setColor(Color.RED);
         this.messageLabel.setVisible(true);
         this.jack.remove();
+        this.sword.remove();
 
         for (BaseActor actor : BaseActor.getList(mainStage, "org.seariver.actor.entity.Enemy")) {
             Enemy enemy = (Enemy) actor;
@@ -261,7 +263,7 @@ public class LevelScreen extends BaseScreen {
                 Color keyColor = key.getColor();
                 key.remove();
                 BaseActor keyIcon = new BaseActor(0, 0, uiStage);
-                keyIcon.loadTexture("assets/key-icon.png");
+                keyIcon.loadTexture("assets/items/keys-1.png");
                 keyIcon.setColor(keyColor);
                 keyTable.add(keyIcon);
                 keyList.add(keyColor);
@@ -379,15 +381,28 @@ public class LevelScreen extends BaseScreen {
         this.sword.toFront();
     }
 
+    protected boolean toLeft(int keyCode) {
+        return keyCode == Keys.A || keyCode == Keys.LEFT;
+    }
+
+    protected boolean toRight(int keyCode) {
+        return keyCode == Keys.D || keyCode == Keys.RIGHT;
+    }
+
+    protected boolean toUp(int keyCode) {
+        return keyCode == Keys.W || keyCode == Keys.UP || keyCode == Keys.SPACE;
+    }
+
+
     public boolean keyDown(int keyCode) {
 
         if (gameOver) return false;
 
-        if (keyCode == Keys.A) {
+        if (toLeft(keyCode)) {
             facingAngle = 180;
         }
 
-        if (keyCode == Keys.D) {
+        if (toRight(keyCode)) {
             facingAngle = 0;
         }
 
@@ -395,7 +410,7 @@ public class LevelScreen extends BaseScreen {
             swingSword();
         }
 
-        if (keyCode == Keys.SPACE && this.jack.isOnSolid()) {
+        if (toUp(keyCode) && this.jack.isOnSolid()) {
             jack.jump();
         }
 

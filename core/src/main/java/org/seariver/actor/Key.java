@@ -10,12 +10,6 @@ public class Key extends BaseActor {
     public Key(float x, float y, Stage stage) {
         super(x, y, stage);
 
-        loadTexture("items/key.png");
-        rotateBy(10);
-
-        Action tilt = Actions.sequence(
-                Actions.rotateBy(-20, 0.5f),
-                Actions.rotateBy(20, 0.5f));
-        addAction(Actions.forever(tilt));
+        loadAnimationFromSheet("items/keys.png", 1, 24, 0.1f, true);
     }
 }

@@ -33,8 +33,6 @@ public class Enemy extends BaseActor {
         };
         this.stand = loadAnimationFromFiles(animationFileNames, 0.2f, true);
 
-//        loadAnimationFromSheet("enemy/demosTeste.png", 1, 4, 0.2f, true);
-
         setSpeed(MathUtils.random(50, 80));
         setBoundaryPolygon(6);
 
@@ -51,7 +49,7 @@ public class Enemy extends BaseActor {
         this.belowSensor.loadTexture("white.png");
         this.belowSensor.setSize(this.getWidth() - 8, 8);
         this.belowSensor.setBoundaryRectangle();
-        this.belowSensor.setVisible(true);
+        this.belowSensor.setVisible(false);
     }
 
 

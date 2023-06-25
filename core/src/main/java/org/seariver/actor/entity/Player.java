@@ -50,7 +50,7 @@ public class Player extends BaseActor {
         this.belowSensor.loadTexture("white.png");
         this.belowSensor.setSize(this.getWidth() - 8, 8);
         this.belowSensor.setBoundaryRectangle();
-        this.belowSensor.setVisible(true);
+        this.belowSensor.setVisible(false);
     }
 
     protected void setAnimations() {
@@ -161,19 +161,27 @@ public class Player extends BaseActor {
 
     }
 
+    protected boolean toLeft() {
+        return input.isKeyPressed(Keys.A) || input.isKeyPressed(Keys.LEFT);
+    }
+
+    protected boolean toRight() {
+        return input.isKeyPressed(Keys.D) || input.isKeyPressed(Keys.RIGHT);
+    }
+
     public void act(float deltaTime) {
 
         super.act(deltaTime);
 
-        if (input.isKeyPressed(Keys.A)) {
+        if (toLeft()) {
             accelerate(Directions.LEFT);
         }
 
-        if (input.isKeyPressed(Keys.D)) {
+        if (toRight()) {
             accelerate(Directions.RIGHT);
         }
 
-        if (! input.isKeyPressed(Keys.D) && ! input.isKeyPressed(Keys.A)) {
+        if (! toRight() && ! toLeft()) {
             this.deceleration(deltaTime);
         }
 
