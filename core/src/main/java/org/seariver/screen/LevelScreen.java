@@ -1,5 +1,6 @@
 package org.seariver.screen;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -119,6 +120,12 @@ public class LevelScreen extends BaseScreen {
         this.messageLabel.setColor(Color.RED);
         this.messageLabel.setVisible(true);
         this.jack.remove();
+
+        for (BaseActor actor : BaseActor.getList(mainStage, "org.seariver.actor.entity.Enemy")) {
+            Enemy enemy = (Enemy) actor;
+            enemy.remove();
+        }
+
         this.gameOver = true;
     }
 
@@ -150,7 +157,7 @@ public class LevelScreen extends BaseScreen {
 
         // Setup
         this.gameOver = false;
-        this.time = 60;
+        this.time = 3000;
         this.timeLabel = new Label("Time: " + (int) time, BaseGame.labelStyle);
         this.timeLabel.setColor(Color.LIGHT_GRAY);
         this.lifeLabel = new Label("Vidas: " + jack.lifes, BaseGame.labelStyle);
@@ -237,7 +244,6 @@ public class LevelScreen extends BaseScreen {
             this.lockCollision(solid);
             this.solidCollision(solid);
             this.enemyCollisions(solid);
-//            this.updateEnemies(solid);
         }
     }
 
@@ -275,38 +281,48 @@ public class LevelScreen extends BaseScreen {
         }
     }
 
-    protected void updateEnemies(Solid solid) {
-        for (BaseActor actor : BaseActor.getList(mainStage, "org.seariver.actor.Enemy")) {
+    protected void updateCombat() {
+        for (BaseActor actor : BaseActor.getList(mainStage, "org.seariver.actor.entity.Enemy")) {
             Enemy enemy = (Enemy) actor;
 
-            if (jack.overlaps(enemy) && enemy.canTakeHit()) {
-                jack.takeHit();
+            // Jack take damage
+            if (this.jack.overlaps(enemy)) {
+                Vector2 offset = jack.preventOverlap(enemy);
+                if (offset != null && jack.canTakeHit()) {
+
+                    float vx = enemy.getVelocityX();
+                    enemy.velocityVec.x = 0;
+
+                    if (vx > 0) {
+                        enemy.walkTo(Directions.LEFT);
+                    } else {
+                        enemy.walkTo(Directions.RIGHT);
+                    }
+
+                    jack.takeDamage();
+                    lifeLabel.setText("Vidas: " + jack.lifes);
+                    jack.takeHit();
+                }
             }
 
-            // Código repetido
-//            if (enemy.overlaps(solid) && solid.isEnabled()) {
-//                Vector2 offset = enemy.preventOverlap(solid);
-//                if (offset != null) {
-//                    if (Math.abs(offset.x) > Math.abs(offset.y)) {
-//                        float vx = enemy.getVelocityX();
-//
-//                        if (vx > 0) {
-//                            enemy.velocityVec.x = 0;
-//                            enemy.walkTo(Directions.LEFT);
-//                        } else {
-//                            enemy.velocityVec.x = 0;
-//                            enemy.walkTo(Directions.RIGHT);
-//                        }
-//                    } else {
-//                        enemy.velocityVec.y = 0;
-//                    }
-//                }
-//            }
+            // Enemy take damage
+            if (this.sword.overlaps(enemy) && this.sword.isVisible() && enemy.canTakeHit()) {
+
+                if (jack.isWalkingTo(Directions.LEFT))
+                {
+                    enemy.walkTo(Directions.LEFT);
+                } else {
+                    enemy.walkTo(Directions.RIGHT);
+                }
+
+                enemy.takeDamage();
+                enemy.takeHit();
+            }
+
+            if (enemy.isDead()) {
+                enemy.remove();
+            }
         }
-    }
-
-    protected void updateCombat() {
-
     }
 
 
@@ -315,10 +331,6 @@ public class LevelScreen extends BaseScreen {
         if (jack.isDead()) {
             this.gameOver("Você morreu!");
         }
-
-//        if (enemy.isDead()) {
-//            enemy.remove();
-//        }
 
         if (gameOver) return;
 
@@ -335,42 +347,7 @@ public class LevelScreen extends BaseScreen {
         this.updateSpringboard();
         this.updateKey();
         this.updateFlag();
-
-//        if (sword.overlaps(enemy) && sword.isVisible() && enemy.canTakeHit()) {
-//
-//            if (jack.isWalkingTo(Directions.LEFT))
-//            {
-//                enemy.walkTo(Directions.LEFT);
-//            } else {
-//                enemy.walkTo(Directions.RIGHT);
-//            }
-//
-//            enemy.takeDamage();
-//            enemy.takeHit();
-//        }
-
-        // Enemy collision
-//        if (jack.overlaps(enemy)) {
-//            Vector2 offset = jack.preventOverlap(enemy);
-//            if (offset != null && jack.canTakeHit()) {
-//
-//                float vx = enemy.getVelocityX();
-//
-//                if (vx > 0) {
-//                    enemy.velocityVec.x = 0;
-//                    enemy.walkTo(Directions.LEFT);
-//                } else {
-//                    enemy.velocityVec.x = 0;
-//                    enemy.walkTo(Directions.RIGHT);
-//                }
-//
-//                jack.takeDamage();
-//                lifeLabel.setText("Vidas: " + jack.lifes);
-//                jack.takeHit();
-//            }
-//        }
-
-
+        this.updateCombat();
     }
 
     public void swingSword()
@@ -385,16 +362,16 @@ public class LevelScreen extends BaseScreen {
 
         Vector2 offset = new Vector2();
 
-        if (facingAngle == 0) {
+        if (this.facingAngle == 0) {
             offset.set(0.50f, 0.20f);
         } else {
             offset.set(0.40f, 0.20f);
         }
 
-        this.sword.setPosition(jack.getX(), jack.getY());
-        this.sword.moveBy(offset.x * jack.getWidth(), offset.y * jack.getHeight());
+        this.sword.setPosition(this.jack.getX(), this.jack.getY());
+        this.sword.moveBy(offset.x * this.jack.getWidth(), offset.y * this.jack.getHeight());
         float swordArc = 90;
-        this.sword.setRotation(facingAngle - swordArc / 2);
+        this.sword.setRotation(this.facingAngle - swordArc / 2);
         this.sword.setOriginX(0);
         this.sword.setVisible(true);
         this.sword.addAction(Actions.rotateBy(swordArc, 0.25f));
@@ -406,11 +383,11 @@ public class LevelScreen extends BaseScreen {
 
         if (gameOver) return false;
 
-        if (keyCode == Keys.LEFT) {
+        if (keyCode == Keys.A) {
             facingAngle = 180;
         }
 
-        if (keyCode == Keys.RIGHT) {
+        if (keyCode == Keys.D) {
             facingAngle = 0;
         }
 
@@ -420,6 +397,14 @@ public class LevelScreen extends BaseScreen {
 
         if (keyCode == Keys.SPACE && this.jack.isOnSolid()) {
             jack.jump();
+        }
+
+        return false;
+    }
+
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (button == Input.Buttons.LEFT) {
+            swingSword();
         }
 
         return false;

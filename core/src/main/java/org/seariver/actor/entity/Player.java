@@ -148,15 +148,15 @@ public class Player extends BaseActor {
 
         super.act(deltaTime);
 
-        if (input.isKeyPressed(Keys.LEFT)) {
+        if (input.isKeyPressed(Keys.A)) {
             accelerate(Directions.LEFT);
         }
 
-        if (input.isKeyPressed(Keys.RIGHT)) {
+        if (input.isKeyPressed(Keys.D)) {
             accelerate(Directions.RIGHT);
         }
 
-        if (! input.isKeyPressed(Keys.RIGHT) && ! input.isKeyPressed(Keys.LEFT)) {
+        if (! input.isKeyPressed(Keys.D) && ! input.isKeyPressed(Keys.A)) {
             this.deceleration(deltaTime);
         }
 

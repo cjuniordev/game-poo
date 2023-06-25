@@ -87,11 +87,11 @@ public class Enemy extends BaseActor {
     public void act(float deltaTime) {
         super.act(deltaTime);
 
-        if (input.isKeyPressed(Input.Keys.LEFT)) {
+        if (this.direction == Directions.LEFT) {
             accelerate(Directions.LEFT);
         }
 
-        if (input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (this.direction == Directions.RIGHT) {
             accelerate(Directions.RIGHT);
         }
 
@@ -136,7 +136,7 @@ public class Enemy extends BaseActor {
 
     public void takeHit()
     {
-        this.delayHit = 10;
+        this.delayHit = 50;
     }
 
     public boolean canTakeHit()
