@@ -54,15 +54,30 @@ public class Player extends BaseActor {
     }
 
     protected void setAnimations() {
-        String[] idleFileNames = { "player/idle/player-idle-1.png", "player/idle/player-idle-2.png", "player/idle/player-idle-3.png", "player/idle/player-idle-4.png" };
+        String[] idleFileNames = {
+                "player/idle/player-idle-1.png",
+                "player/idle/player-idle-2.png",
+                "player/idle/player-idle-3.png",
+                "player/idle/player-idle-4.png"
+        };
         this.stand = loadAnimationFromFiles(idleFileNames, 0.2f, true);
 
-        String[] walkFileNames = {"player/run/player-run-1.png", "player/run/player-run-2.png", "player/run/player-run-3.png", "player/run/player-run-4.png", "player/run/player-run-6.png", "player/run/player-run-6.png"};
+        String[] walkFileNames = {
+                "player/run/player-run-1.png",
+                "player/run/player-run-2.png",
+                "player/run/player-run-3.png",
+                "player/run/player-run-4.png",
+                "player/run/player-run-6.png",
+                "player/run/player-run-6.png"
+        };
         this.walk = loadAnimationFromFiles(walkFileNames, 0.2f, true);
     }
 
     protected void setJump() {
-        String[] jumpFileNames = { "player/jump/player-jump-1.png", "player/jump/player-jump-2.png" };
+        String[] jumpFileNames = {
+                "player/jump/player-jump-1.png",
+                "player/jump/player-jump-2.png"
+        };
         this.jump = loadAnimationFromFiles(jumpFileNames, 0.2f, true);
         this.jumpSpeed = 450;
     }

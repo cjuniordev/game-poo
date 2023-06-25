@@ -9,10 +9,16 @@ public class Timer extends BaseActor {
 
     public Timer(float x, float y, Stage stage) {
         super(x, y, stage);
-        loadTexture("items/timer.png");
-        Action pulse = Actions.sequence(
-                Actions.scaleTo(1.1f, 1.1f, 0.5f),
-                Actions.scaleTo(1.0f, 1.0f, 0.5f));
-        addAction(Actions.forever(pulse));
+
+        String[] animationFileImages = {
+            "items/clock/1.png",
+            "items/clock/2.png",
+            "items/clock/3.png",
+            "items/clock/4.png",
+            "items/clock/5.png",
+        };
+        loadAnimationFromFiles(animationFileImages, 1.0f, true);
+
+        setSize(32, 32);
     }
 }
