@@ -37,7 +37,7 @@ public class LevelScreen extends BaseScreen {
     Label timeLabel;
     Label messageLabel;
     Table keyTable;
-    Label lifeLabel;
+    Table lifeTable;
     TilemapActor tma;
 
     protected void loadSolids() {
@@ -162,14 +162,13 @@ public class LevelScreen extends BaseScreen {
         this.time = 3000;
         this.timeLabel = new Label("Time: " + (int) time, BaseGame.labelStyle);
         this.timeLabel.setColor(Color.LIGHT_GRAY);
-        this.lifeLabel = new Label("Vidas: " + jack.lifes, BaseGame.labelStyle);
-        this.lifeLabel.setColor(Color.RED);
         this.messageLabel = new Label("Message", BaseGame.labelStyle);
         this.messageLabel.setVisible(false);
         this.keyTable = new Table();
+        this.lifeTable = new Table();
 
         this.uiTable.pad(20);
-        this.uiTable.add(lifeLabel);
+        this.uiTable.add(lifeTable);
         this.uiTable.add(keyTable).expandX();
         this.uiTable.add(timeLabel);
         this.uiTable.row();
@@ -302,7 +301,6 @@ public class LevelScreen extends BaseScreen {
                     }
 
                     jack.takeDamage();
-                    lifeLabel.setText("Vidas: " + jack.lifes);
                     jack.takeHit();
                 }
             }
@@ -327,6 +325,15 @@ public class LevelScreen extends BaseScreen {
         }
     }
 
+    protected void updateLife() {
+        this.lifeTable.clearChildren();
+
+        for (int i = 0; i < jack.lifes; i++) {
+            BaseActor lifeIcon = new BaseActor(0, 0, uiStage);
+            lifeIcon.loadTexture("assets/heart.png");
+            this.lifeTable.add(lifeIcon);
+        }
+    }
 
     public void update(float deltaTime) {
 
@@ -350,6 +357,7 @@ public class LevelScreen extends BaseScreen {
         this.updateKey();
         this.updateFlag();
         this.updateCombat();
+        this.updateLife();
     }
 
     public void swingSword()
