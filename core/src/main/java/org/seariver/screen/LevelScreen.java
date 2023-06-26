@@ -345,7 +345,7 @@ public class LevelScreen extends BaseScreen {
         if (gameOver) return;
 
         time -= deltaTime;
-        timeLabel.setText("Time: " + (int) time);
+        timeLabel.setText("Tempo: " + (int) time);
 
         this.updateTimer();
 
