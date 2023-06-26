@@ -159,7 +159,7 @@ public class LevelScreen extends BaseScreen {
 
         // Setup
         this.gameOver = false;
-        this.time = 3000;
+        this.time = 60;
         this.timeLabel = new Label("Time: " + (int) time, BaseGame.labelStyle);
         this.timeLabel.setColor(Color.LIGHT_GRAY);
         this.messageLabel = new Label("Message", BaseGame.labelStyle);
