@@ -20,6 +20,7 @@ public class Player extends BaseActor {
     private Animation stand;
     private Animation walk;
     private Animation jump;
+    private Animation hurt;
 
     protected float walkAcceleration;
     protected float maxHorizontalSpeed;
@@ -71,6 +72,13 @@ public class Player extends BaseActor {
                 "player/run/player-run-6.png"
         };
         this.walk = loadAnimationFromFiles(walkFileNames, 0.2f, true);
+
+        String[] hurtFileNames = {
+            "player/hurt/player-hurt-1.png",
+            "player/hurt/player-hurt-2.png"
+        };
+
+        this.hurt = loadAnimationFromFiles(hurtFileNames, 0.5f, false);
     }
 
     protected void setJump() {
@@ -157,6 +165,10 @@ public class Player extends BaseActor {
         } else {
             this.belowSensor.setColor(Color.RED);
             this.setAnimation(jump);
+        }
+
+        if (this.delayHit > 0) {
+            this.setAnimation(hurt);
         }
 
     }
@@ -252,5 +264,9 @@ public class Player extends BaseActor {
 
     public boolean isWalkingTo(Directions direction) {
         return this.direction == direction;
+    }
+
+    public void hurts() {
+        this.setAnimation(hurt);
     }
 }
