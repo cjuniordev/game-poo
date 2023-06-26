@@ -1,5 +1,6 @@
 package org.seariver.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapObject;
@@ -8,10 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import org.seariver.BaseGame;
-import org.seariver.BaseActor;
-import org.seariver.BaseScreen;
-import org.seariver.TilemapActor;
+import org.seariver.*;
 import org.seariver.actor.*;
 import org.seariver.actor.entity.Directions;
 import org.seariver.actor.entity.Enemy;
@@ -317,6 +315,9 @@ public class LevelScreen extends BaseScreen {
 
                 enemy.takeDamage();
                 enemy.takeHit();
+
+                Smoke smoke = new Smoke(0, 0, mainStage);
+                smoke.centerAtActor(enemy);
             }
 
             if (enemy.isDead()) {
