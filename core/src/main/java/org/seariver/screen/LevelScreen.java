@@ -16,9 +16,7 @@ import org.seariver.actor.entity.Enemy;
 import org.seariver.actor.entity.Player;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static com.badlogic.gdx.Gdx.input;
 import static com.badlogic.gdx.Input.Keys;
 
 public class LevelScreen extends BaseScreen {
@@ -329,7 +327,7 @@ public class LevelScreen extends BaseScreen {
     protected void updateLife() {
         this.lifeTable.clearChildren();
 
-        for (int i = 0; i < jack.lifes; i++) {
+        for (int i = 0; i < jack.getLifes(); i++) {
             BaseActor lifeIcon = new BaseActor(0, 0, uiStage);
             lifeIcon.loadTexture("assets/heart.png");
             this.lifeTable.add(lifeIcon);

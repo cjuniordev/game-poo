@@ -12,19 +12,19 @@ import static com.badlogic.gdx.Input.Keys;
 
 public class Player extends BaseActor {
 
-    protected BaseActor belowSensor;
-    public Directions direction = Directions.RIGHT;
-    public int lifes = 1;
-    public int delayHit = 0;
+    private BaseActor belowSensor;
+    private Directions direction = Directions.RIGHT;
+    private int lifes = 1;
+    private int delayHit = 0;
 
     private Animation stand;
     private Animation walk;
     private Animation jump;
     private Animation hurt;
 
-    protected float walkAcceleration;
-    protected float maxHorizontalSpeed;
-    protected float gravity;
+    private final float walkAcceleration;
+    private final float maxHorizontalSpeed;
+    private final float gravity;
     private final float walkDeceleration;
     private float jumpSpeed;
 
@@ -266,7 +266,7 @@ public class Player extends BaseActor {
         return this.direction == direction;
     }
 
-    public void hurts() {
-        this.setAnimation(hurt);
+    public int getLifes() {
+        return this.lifes;
     }
 }
